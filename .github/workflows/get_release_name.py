@@ -5,7 +5,7 @@ github_ref = os.getenv('GITHUB_REF')
 github_sha = os.getenv('GITHUB_SHA')
 
 if 'refs/tags/' in github_ref:
-    print('::set-output name=RELEASE_NAME::tag-%s' % re.sub('^refs/tags/', '', github_ref))
+    print('::set-output name=RELEASE_NAME::%s' % re.sub('^refs/tags/', '', github_ref))
 elif 'refs/heads/' in github_ref:
     print('::set-output name=RELEASE_NAME::branch-%s-%s' % (re.sub('^refs/heads/', '', github_ref), github_sha))
 else:
