@@ -29,10 +29,10 @@ jobs:
     - name: build
       run: go build -o test main.go && sha256sum test > test.sha256sum
 
-    - name: Branch name
-      id: branch_name
+    - name: Release name
+      id: release_name
       run: |
-        python .github/workflows/get_branch.py
+        python .github/workflows/get_release_name.py
 
     - name: Create Release
       id: create_release
@@ -40,8 +40,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: release-${{ steps.branch_name.outputs.RELEASE_NAME }}
-        release_name: Release ${{ steps.branch_name.outputs.RELEASE_NAME }}
+        tag_name: release-${{ steps.release_name.outputs.RELEASE_NAME }}
+        release_name: Release ${{ steps.release_name.outputs.RELEASE_NAME }}
         draft: false
         prerelease: false
         
@@ -53,4 +53,4 @@ jobs:
       with:
         files: test*
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        release-tag: release-${{ steps.branch_name.outputs.RELEASE_NAME }}
+        release-tag: release-${{ steps.release_name.outputs.RELEASE_NAME }}
